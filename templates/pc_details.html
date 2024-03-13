@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PC Usage</title>
+    <style>
+
+        body {
+            font-family: 'Arial', sans-serif; /* Change the font to Arial for the entire app */
+            font-weight: 100px;
+            padding-top: 40px;
+        }
+
+        nav {
+            background-color: darkgrey; /* Change the background color to grey */
+            overflow: hidden;
+            position: fixed; /* Set the menu bar to a fixed position */
+            width: 100%; /* Full width */
+            top: 0; /* Position at the top */
+            z-index: 1000; /* Ensure it's on top of other elements */
+        }
+
+        nav a {
+            float: left;
+            display: block;
+            color: black;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        nav a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        #menuBar {
+            background-color: darkgrey;
+            padding: 10px;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        #menuBar a {
+            color: black;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: larger;
+        }
+
+        #pcUsageContainer {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+
+        #hostnameFilter {
+            margin-bottom: 10px;
+        }
+
+        .action-button {
+            padding: 5px;
+        }
+
+        .form-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: none;
+            padding: 5px;
+            background-color: #f2f2f2;
+            width: 200px; /* Set the width of the form container */
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-input {
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+            padding: 5px;
+        }
+
+        .form-button {
+            width: 100%;
+            box-sizing: border-box;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        #addPCButton {
+            margin-left: 20px; /* Adjust the margin to your preference */
+            margin-top: 10px;
+            padding: 2px;
+            background-color: #4CAF50;
+            color: black;
+            box-sizing: border-box;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .edit-pc-button {
+            padding: 0.1px;
+            background-color: #99CCFF; /* Change this to your desired color */
+            color: black;
+            box-sizing: border-box;
+            width: 110px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .remove-pc-button {
+            padding: 0.1px;
+            background-color: #FFCC99; /* Change this to your desired color */
+            color: black;
+            box-sizing: border-box;
+            width: 70px;
+            font-weight: bold;
+        }
+
+        #pcDetailsTable {
+            margin-top: 20px; /* Increase the gap below the header */
+            margin-left: 20px; /* Increase the gap below the header */
+        }
+
+        #pcDetailsTable th {
+            text-align: left; /* Add this style to left-justify table headers */
+            padding: 5px 15px 5px 15px; /* Increase the separation between columns */
+        }
+        
+        #pcDetailsTable td {
+            text-align: left;
+            padding: 5px 15px 5px 15px; /* Increase the separation between columns */
+        }
+
+        #addPcFormContainer {
+            margin-left: 20px;
+        }
+
+        .active {
+            background-color: #686868;
+            color: black;
+        }
+
+        .arrow-indicator {
+            font-size: 10px; /* Adjust the size as needed */
+            margin-left: 2px; /* Add some margin for spacing */
+        }
+
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+<body>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/pc_usage">Resource Usage</a>
+        <a href="/pc_details">Resource Details</a>
+    </nav>
+
+    <script>
+    // Get the current page URL
+    var currentUrl = window.location.pathname;
+
+    // Find the corresponding link and add the "active" class
+    var links = document.querySelectorAll('nav a');
+    links.forEach(function(link) {
+        if (link.getAttribute('href') === currentUrl) {
+            link.classList.add('active');
+        }
+    });
+    </script>
+
+    <table id="pcDetailsTable">
+    </table>
+    
+    <button id="addPCButton" onclick="showAddPcForm()" className="add_pc_button">Add Resource</button>
+    <div id="editFormContainer" class="form-container"></div> <!-- New form container for editing -->
+    <div id="addPcFormContainer" class="form-container"></div>
+    <div id="removeConfirmation" class="confirmation-container"></div>
+
+    <script>
+
+        $(document).ready(function () {
+            // ... (existing code)
+        
+            // Event listener to hide form containers when clicking anywhere else
+            
+            
+            $(document).on('click', function (event) {
+                var target = $(event.target);
+
+                /*
+                function hideFormContainers() {
+                    $('.form-container').hide();
+                    $('#removeConfirmation').hide();
+                }
+        
+                // Check if the click target is not one of the specified buttons or form containers
+                if (
+                    !target.hasClass('edit-pc-button') &&
+                    !target.hasClass('remove-pc-button') &&
+                    !target.hasClass('add_pc_button') &&
+                    !target.hasClass('form-input') &&
+                    !target.hasClass('form-button') &&
+                    !target.closest('.form-container').length
+                ) {
+                    hideFormContainers();
+                }
+                */
+            });
+
+            // Sortable columns
+            $('th').click(function () {
+                var table = $(this).parents('table').eq(0);
+                var rows = table.find('tr:gt(0)').toArray().sort(comparer($(this).index()));
+
+                this.asc = !this.asc;
+                if (!this.asc) {
+                    rows = rows.reverse();
+                }
+                for (var i = 0; i < rows.length; i++) {
+                    table.append(rows[i]);
+                }
+
+                // Toggle arrow indicator
+                $('th').removeClass('asc desc');
+                $(this).addClass(this.asc ? 'asc' : 'desc');
+                updateArrowIndicator(this, this.asc);
+            });
+
+            function updateArrowIndicator(th, asc) {
+                // Remove existing arrow indicator
+                $(th).find('.arrow-indicator').remove();
+
+                // Create and append arrow indicator
+                var arrow = $('<span class="arrow-indicator">&#x25BC;</span>');
+                if (asc) {
+                    arrow = $('<span class="arrow-indicator">&#x25B2;</span>');
+                }
+                $(th).append(arrow);
+            }
+
+            // Initialize arrow indicators for default sorting order
+            $('th').each(function () {
+                updateArrowIndicator(this, true);
+            });
+
+            function comparer(index) {
+                return function (a, b) {
+                    var valA = getCellValue(a, index),
+                        valB = getCellValue(b, index);
+                    return $.isNumeric(valA) && $.isNumeric(valB) ? valA - valB : valA.toString().localeCompare(valB);
+                };
+            }
+
+            function getCellValue(row, index) {
+                return $(row).children('td').eq(index).text();
+            }
+        
+            // ... (existing code)
+        });
+        
+
+        var pc_data = {{ pc_details | tojson | safe }};
+        // Debugging: Output pc_data to console
+        console.log('Received pc_data:', JSON.stringify(pc_data));
+
+        // Initial rendering of the PC Usage grid
+        pc_data = pc_data.map(function(row, index) {
+            if (index === 0) {
+                // Header row, no serial number
+                return row;
+            }
+            // Add serial number to each data row
+            return [index].concat(row);
+        });
+        renderTable(pc_data);
+
+        function updatePC(header, pcData) {
+            // Get the updated values from the form
+            var updatedData = [];
+            pcData.forEach(function (value, index) {
+                var inputId = "edit_" + index;
+                var updatedValue = document.getElementById(inputId).value;
+                updatedData.push(updatedValue);
+            });
+        
+            // Find the index of the PC data in the dataset
+            var dataIndex = parseInt(pcData[0]); // Assuming the first element is the serial number
+            // Update the PC data in the dataset
+            console.log('NEW_dATA:', updatedData);
+            pc_data[dataIndex] = updatedData;
+
+            // Make an AJAX POST request to add the new PC
+            $.ajax({
+                type: 'POST',
+                url: '/edit_pc', // Adjust the URL based on your server endpoint
+                contentType: 'application/json',
+                data: JSON.stringify(pc_data),
+                success: function (response) {
+                    console.log(response);
+                    renderTable(pc_data);
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
+        
+        }
+        
+
+        function renderTable(data) {
+            var pcDetailsTable = document.getElementById("pcDetailsTable");
+            pcDetailsTable.innerHTML = ""; // Clear existing content
+
+            // Table header
+            var headerRow = pcDetailsTable.insertRow();
+            data[0].forEach(function (header) {
+                var th = document.createElement("th");
+                th.innerHTML = header;
+                headerRow.appendChild(th);
+            });
+
+            // Table body
+            for (var i = 1; i < data.length; i++) {
+                var row = pcDetailsTable.insertRow();
+                data[i].forEach(function (value, index) {
+                    var td = document.createElement("td");
+                    td.innerHTML = value;
+                    row.appendChild(td);
+                });
+                
+
+                // Added Action column with Edit PC button
+                var editPcCell = row.insertCell();
+                var removePcCell = row.insertCell();
+                var editPcButton = document.createElement("button");
+                var removePcButton = document.createElement("button");
+
+                editPcButton.textContent = "Edit Resource";
+                editPcButton.className = "edit-pc-button";
+
+                removePcButton.textContent = "Remove";
+                removePcButton.className = "remove-pc-button";
+                
+                (function (index) {
+                    editPcButton.onclick = function () {
+                        showEditForm(data[0], data[index]);
+                    };
+                })(i);
+
+                (function (index) {
+                    removePcButton.onclick = function () {
+                        showRemovePcConfirmation(event);
+                    };
+                })(i);
+
+                editPcCell.appendChild(editPcButton);
+                removePcCell.appendChild(removePcButton);
+            }
+
+        }
+
+        function cancelAddAction() {
+            $('#addPcFormContainer').hide();
+        } 
+
+        function cancelEditAction() {
+            $('#editFormContainer').hide();
+        } 
+
+        function showRemovePcConfirmation(event) {
+            var button = $(event.currentTarget);
+            var row = button.closest('tr');
+            
+            // Assuming the hostname is in the second column (index 1)
+            var hostname = row.find('td:eq(1)').text();
+        
+            if (!hostname) {
+                console.error('Hostname not found for the current row.');
+                return;
+            }
+        
+            var confirmationContainer = $('#removeConfirmation');
+        
+            confirmationContainer.html(
+                '<button class="form-button" type="button" style="font-weight: bold;background-color: #E0E0E0; margin-left: 10px;margin-top: 3px;" onclick="removePC(\'' + hostname + '\')">Confirm Removal</button>' +
+                '<button class="form-button" type="button" style="font-weight: bold;background-color: #E0E0E0; margin-left: 10px;margin-top: 3px;" onclick="cancelRemove(\'' + hostname + '\')">Cancel Removal</button>'
+            
+            );
+
+        
+            var buttonRect = button[0].getBoundingClientRect();
+            var rowRect = row[0].getBoundingClientRect();
+        
+            confirmationContainer.css({
+                position: 'absolute',
+                top: buttonRect.top + window.scrollY + 'px',
+                left: rowRect.left + rowRect.width + 'px',
+            });
+        
+            confirmationContainer.show();
+        }
+        
+
+        function removePC(hostname) {
+            // Find the index of the PC with the specified hostname in the dataset
+            var indexToRemove = -1;
+            for (var i = 0; i < pc_data.length; i++) {
+                if (pc_data[i][1] === hostname) {
+                    indexToRemove = i;
+                    break;
+                }
+            }
+        
+            // If the PC is found, remove it from the dataset
+            if (indexToRemove !== -1) {
+                pc_data.splice(indexToRemove, 1);
+    
+                // Re-render the table with the updated data
+                renderTable(pc_data);
+            } else {
+                console.error('PC with hostname ' + hostname + ' not found.');
+            }
+        
+            // Hide the confirmation container
+            $('#removeConfirmation').hide();
+
+            $.ajax({
+                type: 'POST',
+                url: '/remove_pc', // Adjust the URL based on your server endpoint
+                contentType: 'application/json',
+                data: JSON.stringify(pc_data),
+                success: function (response) {
+                    console.log(response);
+                    renderTable(pc_data);
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
+
+        }
+
+        function cancelRemove(hostname) {
+            // Remove the "Confirm Return" button
+            updateTableAfterCancelRemove(hostname);
+        }
+        
+        function updateTableAfterCancelRemove(hostname) {
+            // Implement the logic to update the table after the "Cancel Return" action
+            // You need to update the corresponding row in the table
+            // with the original PC information without the "Confirm Return" button
+            // You can use jQuery or plain JavaScript for this
+            // For now, log the data to the console
+            console.log('Cancel Return Data:', { hostname });
+        
+            // Hide the confirmation container
+            $('#removeConfirmation').hide();
+        }
+        
+
+        // Function to show the edit form
+        function showEditForm(header, pcData) {
+            var formContainer = document.getElementById("editFormContainer");
+            formContainer.innerHTML = ""; // Clear existing content
+
+            // Create the form elements
+            var form = document.createElement("form");
+
+            // Create and append input elements
+            pcData.forEach(function (value, index) {
+                var label = document.createElement("label");
+                label.className = "form-label"; 
+                label.innerHTML = header[index] + ":";
+
+                var input = document.createElement("input");
+                input.type = "text";
+                input.id = "edit_" + index;
+                input.className = "form-input";
+                input.name = pcData[index];
+                input.value = value;
+
+                // Append label and input to the form
+                form.appendChild(label);
+                form.appendChild(input);
+            });
+
+            // Create a submit button
+            var submitButton = document.createElement("button");
+            submitButton.type = "button";
+            submitButton.textContent = "Submit";
+            submitButton.className = "form-button";
+
+            // Create a submit button
+            var cancelButton = document.createElement("button");
+            cancelButton.type = "button";
+            cancelButton.textContent = "Cancel";
+            cancelButton.className = "form-button";
+            /*
+            submitButton.onclick = function () {
+                // Update PC logic goes here
+                console.log("Update PC logic goes here");
+                // Close the form container after submission
+                formContainer.style.display = "none";
+            };*/
+            submitButton.onclick = function () {
+                updatePC(header, pcData);
+                // Close the form container after submission
+                formContainer.style.display = "none";
+            };
+
+            cancelButton.onclick = function () {
+                cancelEditAction();
+            };
+            
+
+            // Add the submit button to the form
+            form.appendChild(submitButton);
+            form.append(cancelButton);
+
+            // Add the form to the form container
+            formContainer.appendChild(form);
+
+            // Position the form container next to the "Edit PC" button
+            var editPcButton = event.target;
+            var rect = editPcButton.getBoundingClientRect();
+            formContainer.style.position = "absolute";
+            formContainer.style.top = rect.bottom + "px";
+            formContainer.style.left = rect.left + "px";
+
+            // Show the form container
+            formContainer.style.display = "block";
+        }
+
+        // Helper function to create form input elements
+        function createFormInput(labelText, inputName, inputValue) {
+            var label = document.createElement("label");
+            label.innerHTML = labelText + ":";
+            label.className = "form-label";
+
+            var input = document.createElement("input");
+            input.type = "text";
+            input.id = inputName;
+            input.name = inputName;
+            input.value = inputValue;
+            input.className = "form-input";
+
+            return [label, input];
+        }
+
+        function addPC() {
+            var newPCData = [];
+        
+            // Get the values from the form inputs
+            var hostname = document.getElementsByName("resource_name")[0].value;
+            var platform = document.getElementsByName("platform")[0].value;
+            var ResourceipAddress = document.getElementsByName("resource_ip")[0].value;
+            var SUTipAddress = document.getElementsByName("sut_ip")[0].value;
+        
+            // Generate a serial number for the new PC (assuming the dataset is an array)
+            var serialNumber = pc_data.length;
+        
+            // Assemble the new PC data
+            newPCData.push(serialNumber);
+            newPCData.push(hostname);
+            newPCData.push(platform);
+            newPCData.push(ResourceipAddress);
+            newPCData.push(SUTipAddress);
+        
+            // Add the new PC data to the dataset
+            pc_data.push(newPCData);
+            
+            // Make an AJAX POST request to add the new PC
+            $.ajax({
+                type: 'POST',
+                url: '/add_pc', // Adjust the URL based on your server endpoint
+                contentType: 'application/json',
+                data: JSON.stringify(newPCData),
+                success: function (response) {
+                    console.log(response);
+                    renderTable(pc_data);
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
+        }
+
+        // Add this function to handle the 'Add PC' button click
+        function showAddPcForm() {
+            var formContainer = $('#addPcFormContainer');
+            formContainer.empty();
+    
+            var labels = ["Resource Name", "Platform", "Resource IP", "SUT IP"];
+    
+            var form = $('<form>');
+    
+            // Create and append input elements for hostname, platform, and IP address
+            for (var i = 0; i < labels.length; i++) {
+                var label = $('<label>').addClass('form-label').text(labels[i] + ":");
+                var input = $('<input>').addClass('form-input').attr({
+                    type: 'text',
+                    name: labels[i].toLowerCase().replace(' ', '_'),
+                    placeholder: "Enter " + labels[i]
+                });
+                form.append(label).append(input);
+            }
+    
+            // Create the submit button
+            var submitButton = $('<button>').attr({
+                type: 'button',
+                class: 'form-button'
+            }).text('Submit').on('click', function () {
+                // Add PC logic goes here
+                //console.log("Add PC logic goes here");
+                addPC();
+                formContainer.hide();
+            });
+
+            // Create the cancel button
+            var cancelButton = $('<button>').attr({
+                type: 'button',
+                class: 'form-button'
+            }).text('Cancel').on('click', function () {
+                cancelAddAction();
+            });
+    
+            // Add the submit button to the form
+            form.append(submitButton);
+
+            form.append(cancelButton);
+    
+            // Add the form to the form container
+            formContainer.append(form);
+    
+            // Position the form container at a fixed position
+            var tableOffset = $('#pcDetailsTable').offset().top;
+            var tableHeight = $('#pcDetailsTable').outerHeight();
+            formContainer.css({ position: 'absolute', top:  tableOffset + tableHeight + 50 + 'px', left: '10px' });
+            formContainer.show();
+        }
+    </script>
+</body>
+</html>
+

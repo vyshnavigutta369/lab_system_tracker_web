@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+
+        body {
+            font-family: 'Arial', sans-serif; /* Change the font to Arial for the entire app */
+            font-weight: 500;
+            padding-top: 70px;
+        }
+
+        nav {
+            margin-bottom: 25px;
+            background-color: darkgrey; /* Change the background color to grey */
+            overflow: hidden;
+            position: fixed; /* Set the menu bar to a fixed position */
+            width: 100%; /* Full width */
+            top: 0; /* Position at the top */
+            z-index: 1000; /* Ensure it's on top of other elements */
+           
+        }
+
+        nav a {
+            float: left;
+            display: block;
+            color: black;
+            text-align: center;
+            padding: 20px 16px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+            
+        }
+
+        nav a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        #menuBar {
+            background-color: darkgrey;
+            padding: 10px;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        #menuBar a {
+            color: black;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: larger;
+        }
+
+        .form-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: none;
+            padding: 10px;
+            background-color: #f2f2f2;
+           gap: 8px;
+        }
+
+        .confirmation-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: none;
+            padding: 10px;
+            background-color: #f2f2f2;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-input {
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+            padding: 5px;
+        }
+
+        .form-button {
+            width: 100%;
+        }
+
+        #pcTable {
+            margin-left: 20px; /* Adjust the margin to your preference */
+        }
+
+        #pcTable td {
+            text-align: center;
+            padding: 3px; /* Increase the separation between columns */
+        }
+
+        #pcTable td:first-child {
+            padding-right: 15px; /* Additional separation for the first column */
+        }
+
+        .action-button {
+            padding: 5px;
+            width: 70px; /* Set your desired fixed width */
+            box-sizing: border-box; /* Ensure that padding is 
+            font-weight: bold;
+        }
+
+    </style>
+    
+</head>
+<body>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    
+    <script>
+        $(document).ready(function () {
+            // Apply styles to action buttons based on text content
+            $('.action-button:contains("Reserve")').addClass('reserve-button');
+            $('.action-button:contains("Return")').addClass('return-button');
+
+             // Function to hide form containers
+            /*
+            function hideFormContainers() {
+                $('#reserveForm').hide();
+                $('#returnConfirmation').hide();
+            }
+
+            // Event listener to hide form containers when mouse leaves buttons and form containers
+            $('.reserve-button, .return-button, #reserveForm, #returnConfirmation').on('mouseleave', function (event) {
+                // Check if the mouse is not over the form containers or buttons
+                if (!$(event.relatedTarget).closest('.reserve-button, .return-button, #reserveForm, #returnConfirmation').length) {
+                    hideFormContainers();
+                }
+            });
+            */
+
+        });
+    </script>
+    <style>
+        .reserve-button {
+            background-color: green;
+            color: white;
+        }
+    
+        .return-button {
+            background-color: red;
+            color: white;
+        }
+    </style>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/pc_usage">Resource Usage</a>
+        <a href="/pc_details">Resource Details</a>
+    </nav>
+
+
+    <table id="pcTable">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Resource</th>
+                <th>Platform</th>
+                <th>Owner</th>
+                <th>Reserved at</th>
+                <th>Purpose</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Populate PC rows dynamically using JavaScript -->
+        </tbody>
+    </table>
+
+    <div id="reserveForm" class="form-container"></div>
+    <div id="returnConfirmation" class="confirmation-container"></div>
+
+    <script>
+        var checkedInData = {{ checked_in | tojson | safe }};
+        var checkedOutData = {{ checked_out | tojson | safe }};
+        var pcNumber = {{ pc_number | tojson | safe }};
+        var pcDetails = {{ pc_details | tojson | safe }};
+
+        function getCurrentDateTime() {
+            var currentDate = new Date();
+            var year = currentDate.getFullYear();
+            var month = ('0' + (currentDate.getMonth() + 1)).slice(-2);
+            var day = ('0' + currentDate.getDate()).slice(-2);
+            var hours = ('0' + currentDate.getHours()).slice(-2);
+            var minutes = ('0' + currentDate.getMinutes()).slice(-2);
+            var seconds = ('0' + currentDate.getSeconds()).slice(-2);
+        
+            var formattedDateTime = year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
+            return formattedDateTime;
+        }
+
+        function populateTable() {
+            var tableBody = $('#pcTable tbody');
+            tableBody.empty();
+
+            if (checkedInData && checkedOutData) {
+                for (var i = 0; i < pcNumber; i++) {
+                    var hostname = pcDetails[i][0];
+                    var platform = pcDetails[i][1];
+                    var pcRow = '<tr id=' + hostname+'>';
+                    var pcRow = '<tr id=' + platform+'>';
+                    pcRow += '<td>' + (i + 1) + '</td>';
+                    pcRow += '<td>' + hostname + '</td>';
+                    pcRow += '<td>' + platform+ '</td>';
+
+                    if (checkedInData[hostname] && checkedInData[hostname].length > 0) {
+                        var pc = checkedInData[hostname][0];
+                        pcRow += '<td class="owner">' + pc[1] + '</td>';  // Display owner
+                        pcRow += '<td class="checkintime">' + pc[2] + '</td>';  // Display checkintime instead of platform
+                        pcRow += '<td class="purpose">' + pc[4] + '</td>';  // Display purpose
+                        // Display "Return" button for checked-in PCs
+                        pcRow += '<td class="action"><button style="font-weight: bold;background-color:#7CE570" class="action-button" onclick="showReturnConfirmation(\'' + hostname + '\', event)">Return</button></td>';
+                    } else if (checkedOutData[hostname] && checkedOutData[hostname].length > 0) {
+                        pcRow += '<td class="owner">-</td>';  // Display '-' for owner
+                        pcRow += '<td class="checkintime">-</td>';  // Display '-' for checkintime
+                        pcRow += '<td class="purpose">-</td>';  // Display '-' for purpose
+                        // Display "Reserve" button for checked-out PCs
+                        pcRow += '<td class="action"><button style="font-weight: bold;background-color:#99CCFF" class="action-button" onclick="showReserveForm(\'' + hostname + '\', event)">Reserve</button></td>';
+                    } else {
+                        pcRow += '<td class="owner">-</td>';  // Display '-' for owner
+                        pcRow += '<td class="checkintime">-</td>';  // Display '-' for checkintime
+                        pcRow += '<td class="purpose">-</td>';  // Display '-' for purpose
+                        // Display "Reserve" button for PCs with no owner details
+                        pcRow += '<td class="action"><button style="font-weight: bold;background-color:#99CCFF" class="action-button" onclick="showReserveForm(\'' + hostname + '\', event)">Reserve</button></td>';
+                    }
+
+                    pcRow += '</tr>';
+                    tableBody.append(pcRow);
+                }
+            }
+        }
+
+        function showReserveForm(hostname, event) {
+            var formContainer = $('#reserveForm');
+            formContainer.empty();
+
+            var row = $('#' + hostname);
+            formContainer.append(
+                '<form>' +
+                    '<input type="hidden" id="hostname" name="hostname" value="' + hostname + '" readonly><br>' +
+                    '<label class="form-label" for="owner" style="font-weight: bold;">Owner:</label>' +
+                    '<input class="form-input" type="text" id="owner" name="owner"><br>' +
+                    '<label class="form-label" for="checkintime" style="font-weight: bold;">Reserved at:</label>' +
+                    '<input class="form-input" type="datetime-local" id="checkintime" name="checkintime"><br>' +
+                    '<label class="form-label" for="purpose" style="font-weight: bold;">Purpose:</label>' +
+                    '<input class="form-input" type="text" id="purpose" name="purpose" maxlength="100"><br>' +
+                    '<button class="form-button" type="button" onclick="reservePC()">Submit</button>' +
+                '</form>'
+            );
+
+            /*
+            console.log('clientY:', event.clientY);
+            
+            var actionbutton = event.target;
+            var rect = actionbutton.getBoundingClientRect();
+            formContainer.css({ position: 'absolute', top: rect.bottom + "px", left: rect.left + "px" });
+            formContainer.show();
+            $('#returnConfirmation').hide(); // Hide return confirmation if it's visible
+            */
+
+            // Get the position of the action button
+
+            var button = $(event.currentTarget);
+            var row = button.closest('tr');
+            if (row.length === 0) {
+                // Fallback in case the row is not found
+                console.error('Row not found for hostname:', hostname);
+                return;
+            }
+
+            var buttonRect = button[0].getBoundingClientRect();
+            var rowRect = row[0].getBoundingClientRect();
+        
+            formContainer.css({
+                position: 'absolute',
+                top: buttonRect.top + window.scrollY + 'px',
+                left: rowRect.left + rowRect.width + 'px',
+            });
+            
+            /*
+            var actionButton = row.find('.action-button');
+            var actionButtonRect = actionButton[0].getBoundingClientRect();
+
+            // Set the position of the form container next to the action button
+            formContainer.css({
+                position: 'absolute',
+                top: actionButtonRect.bottom + 'px',
+                left: actionButtonRect.left + 'px',
+            });
+            */
+
+            formContainer.show();
+            $('#returnConfirmation').hide();
+
+        }
+
+        function reservePC() {
+            // Retrieve form data
+            var hostname = $('#hostname').val();
+            var owner = $('#owner').val();
+            var checkintime = $('#checkintime').val();
+            var purpose = $('#purpose').val();
+
+            // Make an AJAX POST request to the server
+            $.ajax({
+                url: '/reserve_pc',
+                method: 'POST',
+                data: {
+                    hostname: hostname,
+                    owner: owner,
+                    checkintime: checkintime,
+                    purpose: purpose
+                },
+                success: function (response) {
+                    // Handle the response from the server
+                    console.log(response);
+
+                    // Assuming the response is successful, you can update the table or take other actions
+                    if (response.success) {
+                        // Update the table or perform any other actions here
+                        console.log('Reservation successful!');
+                    } else {
+                        // Handle errors if needed
+                        console.error('Reservation failed:', response.message);
+                    }
+                },
+                error: function (error) {
+                    console.error('Error in AJAX request:', error);
+                }
+            });
+
+            reserveReturnAction(hostname, owner, checkintime, purpose);
+            $('#reserveForm').hide();
+
+       
+        }
+
+        function returnPC(hostname) {
+            // Retrieve form data
+            var checkouttime = getCurrentDateTime();
+
+            // Make an AJAX POST request to the server
+            $.ajax({
+                url: '/return_pc',
+                method: 'POST',
+                data: {
+                    hostname: hostname,
+                    checkouttime: checkouttime
+                },
+                success: function (response) {
+                    // Handle the response from the server
+                    console.log(response);
+
+                    // Assuming the response is successful, you can update the table or take other actions
+                    if (response.success) {
+                        // Update the table or perform any other actions here
+                        console.log('Return successful!');
+                    } else {
+                        // Handle errors if needed
+                        console.error('Return failed:', response.message);
+                    }
+                },
+                error: function (error) {
+                    console.error('Error in AJAX request:', error);
+                }
+            });
+
+            reserveReturnAction(hostname, owner='-', checkintime='-', purpose='-');
+            $('#returnConfirmation').hide();
+       
+        }
+
+        function reserveAction(hostname, owner, checkintime, purpose) {
+            var row = $('tr#' + hostname);
+            row.find('.action-button').text('Return');
+
+            // Assuming you have the corresponding form fields available
+            row.find('.owner').text(owner); // Set to actual owner
+            row.find('.checkintime').text(checkintime); // Set to actual checkin time
+            row.find('.purpose').text(purpose); // Set to actual purpose
+
+            var returnButton = '<td class="action"><button style="font-weight: bold;background-color:#7CE570" class="action-button" onclick="showReturnConfirmation(\'' + hostname + '\', event)">Return</button></td>';
+            row.find('.action').empty().append(returnButton);
+            //populateTable();
+        }
+
+        function returnAction(hostname, owner, checkintime, purpose) {
+            var row = $('tr#' + hostname);
+            row.find('.action-button').text('Reserve');
+
+            // Reset the form fields to '-'
+            row.find('.owner').text('-');
+            row.find('.checkintime').text('-');
+            row.find('.purpose').text('-');
+
+            // Hide the Confirm Checkout button
+            // row.find('.confirm-checkout').hide(); 
+
+            // Dynamically bind the click handler for the new "Reserve" action
+            var reserveButton = $('<button  style="font-weight: bold;background-color:#99CCFF" class="action-button" onclick="showReserveForm(\'' + hostname + '\', event)">Reserve</button>');
+            row.find('.action').empty().append(reserveButton);
+            // populateTable();
+        }
+
+        function reserveReturnAction(hostname, owner, checkintime, purpose) {
+            var row = $('tr#' + hostname);
+            var currentAction = row.find('.action-button').text().trim();
+
+            if (currentAction === 'Reserve') {
+                reserveAction(hostname, owner, checkintime, purpose);
+            } else if (currentAction === 'Return') {
+                returnAction(hostname, owner, checkintime, purpose);
+            }
+
+            
+        } 
+
+        function showReturnConfirmation(hostname, event) {
+            var button = $(event.currentTarget);
+            var row = button.closest('tr');
+            if (row.length === 0) {
+                // Fallback in case the row is not found
+                console.error('Row not found for hostname:', hostname);
+                return;
+            }
+        
+            var confirmationContainer = $('#returnConfirmation');
+        
+            /*
+            confirmationContainer.html(
+                '<button class="form-button" style="font-weight: bold;" type="button" onclick="returnPC(\'' + hostname + '\')">Confirm Return</button>'
+            ); */
+
+            confirmationContainer.html('<button class="form-button" type="button" style="font-weight: bold;background-color: #E0E0E0; margin-left: 10px;margin-top: 3px;" onclick="returnPC(\'' + hostname + '\')">Confirm Return</button>');
+
+        
+            var buttonRect = button[0].getBoundingClientRect();
+            var rowRect = row[0].getBoundingClientRect();
+        
+            confirmationContainer.css({
+                position: 'absolute',
+                top: buttonRect.top + window.scrollY + 'px',
+                left: rowRect.left + rowRect.width + 'px',
+            });
+        
+            confirmationContainer.show();
+            $('#reserveForm').hide();
+        }
+          
+
+        function confirmReturn(hostname) {
+            // Update the table after return
+            updateTableAfterReturn(hostname);
+
+            // Hide the confirmation container
+            $('#returnConfirmation').hide();
+        }
+
+        function updateTableAfterReturn(hostname) {
+            // Implement the logic to update the table after the return action
+            // You need to update the corresponding row in the table
+            // with the returned PC information
+            // You can use jQuery or plain JavaScript for this
+            // For now, log the data to the console
+            console.log('Return Data:', { hostname });
+        }
+
+        $(document).ready(function () {
+            populateTable();
+            // ... (other functions)
+        });
+    </script>
+</body>
+</html>

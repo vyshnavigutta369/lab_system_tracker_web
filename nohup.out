@@ -1,0 +1,322 @@
+ * Serving Flask app "app" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: on
+ * Running on http://10.7.160.130:5000/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 332-539-022
+10.7.138.21 - - [07/Dec/2023 10:03:46] "[37mGET / HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:03:47] "[37mGET / HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:03:48] "[37mGET /pc_usage HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:03:49] "[37mGET /pc_details HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:03:52] "[37mGET / HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:04:06] "[37mGET /pc_details HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:04:13] "[37mPOST /edit_pc HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:04:20] "[37mPOST /edit_pc HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:04:41] "[37mPOST /add_pc HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:04:47] "[37mGET / HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:04:50] "[37mGET /pc_details HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:05:03] "[37mPOST /edit_pc HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:05:12] "[37mPOST /edit_pc HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:05:19] "[37mPOST /remove_pc HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:05:21] "[37mGET / HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:05:29] "[37mGET /pc_details HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:05:32] "[37mGET /pc_usage HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:05:40] "[37mGET / HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:05:45] "[37mGET /pc_details HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:06:02] "[37mPOST /add_pc HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:06:09] "[37mPOST /edit_pc HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:06:14] "[37mGET / HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:06:40] "[37mPOST /reserve_pc HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:06:48] "[37mPOST /return_pc HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:06:52] "[37mGET /pc_usage HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:06:55] "[37mGET /pc_details HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:15:57] "[37mGET / HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:16:00] "[37mGET /pc_details HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:16:16] "[37mPOST /remove_pc HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:16:18] "[35m[1mGET / HTTP/1.1[0m" 500 -
+Traceback (most recent call last):
+  File "/home/montage/.local/lib/python2.7/site-packages/flask/app.py", line 2464, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/montage/.local/lib/python2.7/site-packages/flask/app.py", line 2450, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/montage/.local/lib/python2.7/site-packages/flask/app.py", line 1867, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/montage/.local/lib/python2.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/montage/.local/lib/python2.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/montage/.local/lib/python2.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/montage/.local/lib/python2.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/montage/.local/lib/python2.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/montage/lab_system_tracker/app.py", line 64, in home
+    checked_in_data, checked_out_data = update_pc_status(pc_data, pc_details)
+  File "/home/montage/lab_system_tracker/app.py", line 33, in update_pc_status
+    checked_out[pc_name].append(item)
+KeyError: u'MSILABPC21'
+10.7.138.21 - - [07/Dec/2023 10:16:18] "[37mGET /?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:16:18] "[37mGET /?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:16:18] "[37mGET /?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:16:18] "[37mGET /?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:16:18] "[37mGET /?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:16:18] "[37mGET /?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:16:41] "[35m[1mGET / HTTP/1.1[0m" 500 -
+Traceback (most recent call last):
+  File "/home/montage/.local/lib/python2.7/site-packages/flask/app.py", line 2464, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/montage/.local/lib/python2.7/site-packages/flask/app.py", line 2450, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/montage/.local/lib/python2.7/site-packages/flask/app.py", line 1867, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/montage/.local/lib/python2.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/montage/.local/lib/python2.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/montage/.local/lib/python2.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/montage/.local/lib/python2.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/montage/.local/lib/python2.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/montage/lab_system_tracker/app.py", line 64, in home
+    checked_in_data, checked_out_data = update_pc_status(pc_data, pc_details)
+  File "/home/montage/lab_system_tracker/app.py", line 33, in update_pc_status
+    checked_out[pc_name].append(item)
+KeyError: u'MSILABPC21'
+10.7.138.21 - - [07/Dec/2023 10:16:41] "[37mGET /?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:16:41] "[37mGET /?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:16:41] "[37mGET /?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:16:41] "[37mGET /?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:16:41] "[37mGET /?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:20:57] "[35m[1mGET / HTTP/1.1[0m" 500 -
+Traceback (most recent call last):
+  File "/home/montage/.local/lib/python2.7/site-packages/flask/app.py", line 2464, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/montage/.local/lib/python2.7/site-packages/flask/app.py", line 2450, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/montage/.local/lib/python2.7/site-packages/flask/app.py", line 1867, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/montage/.local/lib/python2.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/montage/.local/lib/python2.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/montage/.local/lib/python2.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/montage/.local/lib/python2.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/montage/.local/lib/python2.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/montage/lab_system_tracker/app.py", line 64, in home
+    checked_in_data, checked_out_data = update_pc_status(pc_data, pc_details)
+  File "/home/montage/lab_system_tracker/app.py", line 33, in update_pc_status
+    checked_out[pc_name].append(item)
+KeyError: u'MSILABPC21'
+10.7.138.21 - - [07/Dec/2023 10:20:57] "[37mGET /?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:20:57] "[37mGET /?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:20:57] "[37mGET /?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:20:57] "[37mGET /?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:20:57] "[37mGET /?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:20:57] "[37mGET /?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:20:58] "[35m[1mGET / HTTP/1.1[0m" 500 -
+Traceback (most recent call last):
+  File "/home/montage/.local/lib/python2.7/site-packages/flask/app.py", line 2464, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/montage/.local/lib/python2.7/site-packages/flask/app.py", line 2450, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/montage/.local/lib/python2.7/site-packages/flask/app.py", line 1867, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/montage/.local/lib/python2.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/montage/.local/lib/python2.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/montage/.local/lib/python2.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/montage/.local/lib/python2.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/montage/.local/lib/python2.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/montage/lab_system_tracker/app.py", line 64, in home
+    checked_in_data, checked_out_data = update_pc_status(pc_data, pc_details)
+  File "/home/montage/lab_system_tracker/app.py", line 33, in update_pc_status
+    checked_out[pc_name].append(item)
+KeyError: u'MSILABPC21'
+10.7.138.21 - - [07/Dec/2023 10:20:58] "[37mGET /?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:20:58] "[37mGET /?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:20:58] "[37mGET /?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:20:58] "[37mGET /?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:20:58] "[37mGET /?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:20:58] "[37mGET /?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+ * Serving Flask app "app" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: on
+ * Running on http://10.7.160.130:5000/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 332-539-022
+10.7.138.21 - - [07/Dec/2023 10:22:26] "[35m[1mGET / HTTP/1.1[0m" 500 -
+Traceback (most recent call last):
+  File "/home/montage/.local/lib/python2.7/site-packages/flask/app.py", line 2464, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/home/montage/.local/lib/python2.7/site-packages/flask/app.py", line 2450, in wsgi_app
+    response = self.handle_exception(e)
+  File "/home/montage/.local/lib/python2.7/site-packages/flask/app.py", line 1867, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/montage/.local/lib/python2.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/montage/.local/lib/python2.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/montage/.local/lib/python2.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/montage/.local/lib/python2.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/montage/.local/lib/python2.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/montage/lab_system_tracker/app.py", line 64, in home
+    checked_in_data, checked_out_data = update_pc_status(pc_data, pc_details)
+  File "/home/montage/lab_system_tracker/app.py", line 33, in update_pc_status
+    checked_out[pc_name].append(item)
+KeyError: u'MSILABPC21'
+10.7.138.21 - - [07/Dec/2023 10:22:26] "[37mGET /?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:22:26] "[37mGET /?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:22:26] "[37mGET /?__debugger__=yes&cmd=resource&f=jquery.js HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:22:26] "[37mGET /?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:22:26] "[37mGET /?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 10:22:26] "[37mGET /?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 200 -
+ * Serving Flask app "app" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: on
+ * Running on http://10.7.160.130:5000/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 332-539-022
+10.7.138.21 - - [07/Dec/2023 17:53:13] "[37mGET /pc_details HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 17:53:15] "[37mGET / HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 17:53:18] "[37mGET /pc_details HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 17:53:20] "[37mGET /pc_usage HTTP/1.1[0m" 200 -
+10.7.138.21 - - [07/Dec/2023 17:53:21] "[37mGET / HTTP/1.1[0m" 200 -
+10.7.138.21 - - [08/Dec/2023 10:22:08] "[37mGET / HTTP/1.1[0m" 200 -
+10.7.138.21 - - [08/Dec/2023 10:22:09] "[37mGET /pc_usage HTTP/1.1[0m" 200 -
+10.7.138.21 - - [08/Dec/2023 10:22:12] "[37mGET /pc_details HTTP/1.1[0m" 200 -
+10.7.138.21 - - [08/Dec/2023 10:22:18] "[37mGET / HTTP/1.1[0m" 200 -
+10.7.138.21 - - [08/Dec/2023 15:25:42] "[37mGET / HTTP/1.1[0m" 200 -
+10.7.138.21 - - [08/Dec/2023 15:25:46] "[37mGET /pc_usage HTTP/1.1[0m" 200 -
+10.7.138.21 - - [08/Dec/2023 15:25:50] "[37mGET /pc_details HTTP/1.1[0m" 200 -
+10.7.138.21 - - [08/Dec/2023 15:25:54] "[37mGET /pc_usage HTTP/1.1[0m" 200 -
+10.7.138.21 - - [08/Dec/2023 15:26:05] "[37mGET / HTTP/1.1[0m" 200 -
+10.7.138.24 - - [11/Dec/2023 14:04:45] "[37mGET / HTTP/1.1[0m" 200 -
+10.7.138.24 - - [11/Dec/2023 14:04:45] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+10.7.138.24 - - [11/Dec/2023 14:04:53] "[37mGET /pc_usage HTTP/1.1[0m" 200 -
+10.7.138.24 - - [11/Dec/2023 14:04:54] "[37mGET /pc_details HTTP/1.1[0m" 200 -
+10.7.138.24 - - [11/Dec/2023 14:05:27] "[37mPOST /edit_pc HTTP/1.1[0m" 200 -
+10.7.138.24 - - [11/Dec/2023 14:05:36] "[37mPOST /edit_pc HTTP/1.1[0m" 200 -
+10.7.138.24 - - [11/Dec/2023 14:05:42] "[37mPOST /edit_pc HTTP/1.1[0m" 200 -
+10.7.138.24 - - [11/Dec/2023 14:05:47] "[37mGET / HTTP/1.1[0m" 200 -
+10.7.138.24 - - [11/Dec/2023 14:06:11] "[37mPOST /reserve_pc HTTP/1.1[0m" 200 -
+10.7.138.24 - - [11/Dec/2023 14:06:18] "[37mPOST /return_pc HTTP/1.1[0m" 200 -
+10.7.138.24 - - [11/Dec/2023 14:06:33] "[37mGET /pc_details HTTP/1.1[0m" 200 -
+10.7.138.24 - - [11/Dec/2023 14:07:21] "[37mPOST /add_pc HTTP/1.1[0m" 200 -
+10.7.138.24 - - [11/Dec/2023 14:07:26] "[37mGET /pc_details HTTP/1.1[0m" 200 -
+10.7.138.24 - - [11/Dec/2023 14:07:32] "[37mGET / HTTP/1.1[0m" 200 -
+10.7.138.24 - - [11/Dec/2023 14:07:38] "[37mGET /pc_details HTTP/1.1[0m" 200 -
+10.7.138.24 - - [11/Dec/2023 14:07:41] "[37mGET / HTTP/1.1[0m" 200 -
+10.7.138.24 - - [11/Dec/2023 14:07:43] "[37mGET /pc_usage HTTP/1.1[0m" 200 -
+10.7.138.24 - - [11/Dec/2023 14:07:44] "[37mGET /pc_details HTTP/1.1[0m" 200 -
+10.7.138.24 - - [11/Dec/2023 14:07:47] "[37mGET /pc_usage HTTP/1.1[0m" 200 -
+10.7.138.24 - - [11/Dec/2023 14:07:51] "[37mGET /pc_details HTTP/1.1[0m" 200 -
+10.7.138.24 - - [11/Dec/2023 14:07:56] "[37mGET /pc_details HTTP/1.1[0m" 200 -
+10.7.138.24 - - [11/Dec/2023 14:07:59] "[37mGET / HTTP/1.1[0m" 200 -
+10.7.138.24 - - [11/Dec/2023 14:08:00] "[37mGET /pc_details HTTP/1.1[0m" 200 -
+10.7.138.24 - - [11/Dec/2023 14:08:05] "[37mPOST /remove_pc HTTP/1.1[0m" 200 -
+10.7.138.24 - - [11/Dec/2023 14:09:00] "[37mGET / HTTP/1.1[0m" 200 -
+10.7.138.24 - - [11/Dec/2023 14:09:01] "[37mGET /pc_usage HTTP/1.1[0m" 200 -
+10.7.138.24 - - [11/Dec/2023 14:11:23] "[37mGET / HTTP/1.1[0m" 200 -
+10.7.138.21 - - [11/Dec/2023 15:00:23] "[37mGET / HTTP/1.1[0m" 200 -
+10.7.138.21 - - [11/Dec/2023 15:00:29] "[37mGET /pc_usage HTTP/1.1[0m" 200 -
+10.7.138.21 - - [11/Dec/2023 15:00:31] "[37mGET /pc_details HTTP/1.1[0m" 200 -
+10.7.138.21 - - [11/Dec/2023 15:00:36] "[37mGET / HTTP/1.1[0m" 200 -
+10.7.138.21 - - [11/Dec/2023 15:24:37] "[37mGET / HTTP/1.1[0m" 200 -
+10.7.138.21 - - [11/Dec/2023 15:24:38] "[37mGET / HTTP/1.1[0m" 200 -
+10.7.138.21 - - [11/Dec/2023 15:25:04] "[37mGET / HTTP/1.1[0m" 200 -
+10.7.138.21 - - [11/Dec/2023 15:25:05] "[37mGET / HTTP/1.1[0m" 200 -
+10.7.138.21 - - [11/Dec/2023 15:29:03] "[37mGET / HTTP/1.1[0m" 200 -
+10.7.138.21 - - [11/Dec/2023 15:29:05] "[37mGET / HTTP/1.1[0m" 200 -
+ * Serving Flask app "app" (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: on
+ * Running on http://10.7.160.130:5000/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 332-539-022
+10.7.138.24 - - [13/Dec/2023 11:33:20] "[37mGET / HTTP/1.1[0m" 200 -
+10.7.138.24 - - [13/Dec/2023 11:33:20] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+10.7.138.24 - - [13/Dec/2023 11:33:23] "[37mGET /pc_usage HTTP/1.1[0m" 200 -
+10.7.138.24 - - [13/Dec/2023 11:33:28] "[37mGET /pc_details HTTP/1.1[0m" 200 -
+10.7.138.24 - - [13/Dec/2023 11:33:30] "[37mGET / HTTP/1.1[0m" 200 -
+10.7.121.67 - - [13/Dec/2023 11:36:03] code 400, message Bad request syntax ('\x16\x03\x01\x02_\x01\x00\x02[\x03\x039\x1d\xd7!~\xe6\xc0\x1f\xdb\xc9\xd4\xd2\xa4\xc1{\xff\x98\xear\x19M%!\xc9\xbc\xef\xa5\x9d0J\x10[ \xe1\xf4\xeal\xfc8-\xf9\xad\\\xf4\x8cT\x01+\x8e\x83YA\x0c\x91\xf3\xd5s\x07\x90\x9b\xce\x19\xa5\x9b\xc6\x00 jj\x13\x01\x13\x02\x13\x03\xc0+\xc0/\xc0,\xc00\xcc\xa9\xcc\xa8\xc0\x13\xc0\x14\x00\x9c\x00\x9d\x00/\x005\x01\x00\x01\xf2')
+10.7.121.67 - - [13/Dec/2023 11:36:03] "[31m[1m_ [9×!~æÀÛÉÔÒ¤Á{ÿ˜êrM%!É¼ï¥0J[ áôêlü8-ù­\ôŒT+ŽƒYA‘óÕs›Î¥›Æ  jjÀ+À/À,À0Ì©Ì¨ÀÀ œ  / 5 ò[0m" 400 -
+10.7.121.67 - - [13/Dec/2023 11:36:03] code 400, message Bad request syntax ('\x16\x03\x01\x02\x04\x01\x00\x02\x00\x03\x037\xd1eCW\x12\x03\xcc!\x87\xe2%\x0e*&\x9b\x8f6\xa9\xd5\x86\x15Z\xd4V\xdc\x8fK)\x95B\xed h\xec\xc2\xc2;M_\x85e\xc9F"\xef\xc4\x1d\xa1\xc97X\x04\t\xb1>\xdcn\xa6\x17\xc4\x84h\xf6-\x00 ::\x13\x01\x13\x02\x13\x03\xc0+\xc0/\xc0,\xc00\xcc\xa9\xcc\xa8\xc0\x13\xc0\x14\x00\x9c\x00\x9d\x00/\x005\x01\x00\x01\x97jj\x00\x00\xfe\r\x00\xba\x00\x00\x01\x00\x01.\x00 \xc5\x00\xd5\xfb\x94\x7f\\\xd6\xfb)\x07{\xde\xda\r\xd19)--"\xe9fh4\xab\xa8X\x93\xdd\x01Z\x00\x90B\xd6\x15\xb6D\xde\xd9\xed\x8b\x851-\xb2\x18\x7f\x88\xe5\x80\x04u\x19-js9\x0f\xd3\xf8qc\xdad\x0e[\xa1\xce\xe1\xda\xdb\x02HE\x90\xf1\x89=\x9c\x87v\tI\xd5+\xbb\xf7\x88\x84\x9bT5\x9f\xd6u3\xce=|6\x82\x90T\x1b\x9d\x99\xf6\x9dn-q\x0b\xe9\x1c\xd4&\x93jL\x8atRoO32\x88\xe1(\xbaC\xbc\x92}\x89K\xb5\xd8,S\x92\xc3_:^\xb5\xb1\x11\x03\xdf\x80\xd6c\'\x12\xfc\x19\xab\x13?;8\x1f\xab')
+10.7.121.67 - - [13/Dec/2023 11:36:03] "[31m[1m  7ÑeCWÌ!‡â%*&›6©Õ†ZÔVÜK)•Bí hìÂÂ;M_…eÉF"ïÄ¡É7X	±>Ün¦Ä„hö-  ::À+À/À,À0Ì©Ì¨ÀÀ œ  / 5 —jj  þ º   .  Å Õû”\Öû){ÞÚÑ9)--"éfh4«¨X“ÝZ BÖ¶DÞÙí‹…1-²ˆå€u-js9ÓøqcÚd[¡ÎáÚÛHEñ‰=œ‡v	IÕ+»÷ˆ„›T5ŸÖu3Î=|6‚T™ön-qéÔ&“jLŠtRoO32ˆá(ºC¼’}‰KµØ,S’Ã_:^µ±ß€Öc'ü«?;8«[0m" 400 -
+10.7.121.67 - - [13/Dec/2023 11:36:03] "[37mGET / HTTP/1.1[0m" 200 -
+10.7.121.67 - - [13/Dec/2023 11:36:03] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+10.7.121.67 - - [13/Dec/2023 11:36:06] "[37mGET /pc_usage HTTP/1.1[0m" 200 -
+10.7.121.67 - - [13/Dec/2023 11:36:06] code 400, message Bad request syntax ('\x16\x03\x01\x02?\x01\x00\x02;\x03\x03D\x8b\xf6\xb2\x88*\x9bl\xc9\xb3\xaeB\x9aBQ\x12\x80(\xef\x1c\xaf\xe2\x8c\x8dwO\xc5\x8d\x93q\\\x88 w\x05\xf7\xb1b\x87V05\xd1\xe9\xe1YQ\xf7\r \xb9\x89\xa4\xccp\xfe\xeeR\'ju\xb3\x81\xc6T\x00 \xfa\xfa\x13\x01\x13\x02\x13\x03\xc0+\xc0/\xc0,\xc00\xcc\xa9\xcc\xa8\xc0\x13\xc0\x14\x00\x9c\x00\x9d\x00/\x005\x01\x00\x01\xd2\xaa\xaa\x00\x00\x00\x1b\x00\x03\x02\x00\x02\x00-\x00\x02\x01\x01Di\x00\x05\x00\x03\x02h2\x003\x00+\x00)\x8a\x8a\x00\x01\x00\x00\x1d\x00 \xfa\xe0w(zwI\x10!\x0c\xb2\xc9\x91z\x9fa\x9a\x158n\xc20\th\xf0-\xcdY\x04$\xeb)\x00#\x00\x00\xfe\r\x00\xfa\x00\x00\x01\x00\x01\xb3\x00 O)\xff\xcb\x9dj7*\xce\x97dLE\x13{xv\xe91\xb8\xbbh\xbdx\x1c\t~\xbc\x9f\\0\x19\x00\xd06am\xda\xdb\xba\xc7\xa9\x82\x1b\xff-\xe4\xac\xe5\xd7l"(p\xa86\xeb+\x91\xfd\xe7\x9b\x1e\xb5\xe8?\x88d\xac\xe5\x0f\xd0;\t\xa2\xa2\xc9\xf1\xa72]>\xe6T]\xaal\x88\xb0\xd0\x039N7jB3\x0fI\xcf\x07\xca\xfb`o\x9e\xc0\x82\xde\x90-\x00k\xd8\xc5\xd3\x10\xc9NY\xc0I3\xa6g\x17\xa1*K$O\xa8 L\x04\x19\x04\x88\x08\x87\xcb\xcc?\x08i\x07y\xc3\xe1\x1c$\xf6X\x11\xbe\x1d\x94\xa7W\xd1e\xcd\xdb\xdd\xc4QS\xa8@\xff\'\x0c\xcaM\x1c\xc1\xadZ\xe7\xee\xf6\xc2\xa24\xc1hK\x93\xe4ar\x8b\x85\xb6&<\xcdb\x9fcx\xd2\xf9\xab:\xafkxAb`\xdf\xd2\x86\xd8\xb66\xc3\xac\x06\xa1\xe6\x88\xbd\xcf\xbaamV\xd1\x91\x19\xca\xbf\xfb\xb6\xe0\xf1?\x82\xe0\x0c\x00+\x00\x07\x06jj\x03\x04\x03\x03\x00\r\x00\x12\x00\x10\x04\x03\x08\x04\x04\x01\x05\x03\x08\x05\x05\x01\x08\x06\x06\x01\x00')
+10.7.121.67 - - [13/Dec/2023 11:36:06] "[31m[1m? ;D‹ö²ˆ*›lÉ³®BšBQ€(ï¯âŒwOÅ“q\ˆ w÷±b‡V05ÑéáYQ÷ ¹‰¤ÌpþîR'ju³ÆT  úúÀ+À/À,À0Ì©Ì¨ÀÀ œ  / 5 Òªª      - Di  h2 3 + )ŠŠ     úàw(zwI!²É‘zŸaš8nÂ0	hð-ÍY$ë) #  þ ú   ³  O)ÿËj7*Î—dLE{xvé1¸»h½x	~¼Ÿ\0 Ð6amÚÛºÇ©‚ÿ-ä¬å×l"(p¨6ë+‘ýç›µè?ˆd¬åÐ;	¢¢Éñ§2]>æT]ªlˆ°Ð9N7jB3IÏÊû`ožÀ‚Þ- kØÅÓÉNYÀI3¦g¡*K$O¨ Lˆ‡ËÌ?iyÃá$öX¾”§WÑeÍÛÝÄQS¨@ÿ'ÊMÁ­ZçîöÂ¢4ÁhK“äar‹…¶&<ÍbŸcxÒù«:¯kxAb`ßÒ†Ø¶6Ã¬¡æˆ½ÏºamVÑ‘Ê¿û¶àñ?‚à + jj    [0m" 400 -
+10.7.121.67 - - [13/Dec/2023 11:36:06] code 400, message Bad request syntax ('\x16\x03\x01\x02\x04\x01\x00\x02\x00\x03\x03\xcd')
+10.7.121.67 - - [13/Dec/2023 11:36:06] "[31m[1m  Í[0m" 400 -
+10.7.121.67 - - [13/Dec/2023 11:36:09] "[37mGET /pc_details HTTP/1.1[0m" 200 -
+10.7.121.67 - - [13/Dec/2023 11:36:17] "[37mGET / HTTP/1.1[0m" 200 -
+10.7.121.67 - - [13/Dec/2023 11:36:20] "[37mGET /pc_usage HTTP/1.1[0m" 200 -
+10.7.121.67 - - [13/Dec/2023 11:36:21] "[37mGET /pc_details HTTP/1.1[0m" 200 -
+10.7.121.67 - - [13/Dec/2023 11:36:31] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+10.7.121.67 - - [13/Dec/2023 11:36:31] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+10.7.121.67 - - [13/Dec/2023 11:36:42] "[37mPOST /edit_pc HTTP/1.1[0m" 200 -
+10.7.121.67 - - [13/Dec/2023 11:36:54] "[37mPOST /edit_pc HTTP/1.1[0m" 200 -
+10.7.121.67 - - [13/Dec/2023 11:36:56] "[37mGET /pc_usage HTTP/1.1[0m" 200 -
+10.7.121.67 - - [13/Dec/2023 11:36:57] "[37mGET /pc_details HTTP/1.1[0m" 200 -
+10.7.121.67 - - [13/Dec/2023 11:36:58] "[37mGET /pc_usage HTTP/1.1[0m" 200 -
+10.7.121.67 - - [13/Dec/2023 11:36:59] "[37mGET / HTTP/1.1[0m" 200 -
+10.7.121.67 - - [13/Dec/2023 11:37:21] "[37mGET / HTTP/1.1[0m" 200 -
+10.7.121.67 - - [13/Dec/2023 11:37:27] "[37mGET / HTTP/1.1[0m" 200 -
+10.7.138.24 - - [13/Dec/2023 11:40:41] "[37mGET /pc_usage HTTP/1.1[0m" 200 -
+10.7.138.24 - - [13/Dec/2023 11:40:42] "[37mGET /pc_details HTTP/1.1[0m" 200 -
+10.7.138.24 - - [13/Dec/2023 11:41:38] "[37mGET /pc_details HTTP/1.1[0m" 200 -
+10.7.138.24 - - [13/Dec/2023 11:41:40] "[37mGET /pc_details HTTP/1.1[0m" 200 -
+10.7.138.24 - - [13/Dec/2023 11:42:53] "[37mGET /pc_usage HTTP/1.1[0m" 200 -
+10.7.138.24 - - [13/Dec/2023 11:43:01] "[37mGET / HTTP/1.1[0m" 200 -
+10.7.121.66 - - [13/Dec/2023 11:55:24] "[37mGET / HTTP/1.1[0m" 200 -
+10.7.121.66 - - [13/Dec/2023 11:55:24] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+10.7.121.66 - - [13/Dec/2023 11:56:10] "[37mPOST /reserve_pc HTTP/1.1[0m" 200 -
+10.7.138.24 - - [13/Dec/2023 12:41:49] "[37mGET / HTTP/1.1[0m" 200 -
+10.7.138.24 - - [13/Dec/2023 12:42:00] "[37mGET /pc_usage HTTP/1.1[0m" 200 -
+10.7.138.24 - - [13/Dec/2023 12:42:03] "[37mGET / HTTP/1.1[0m" 200 -
+10.7.138.24 - - [13/Dec/2023 12:42:08] "[37mGET /pc_usage HTTP/1.1[0m" 200 -
+10.7.138.24 - - [13/Dec/2023 12:42:10] "[37mGET /pc_details HTTP/1.1[0m" 200 -
+10.7.138.24 - - [13/Dec/2023 12:42:10] "[37mGET / HTTP/1.1[0m" 200 -
+10.7.138.24 - - [13/Dec/2023 12:45:47] "[37mGET /pc_usage HTTP/1.1[0m" 200 -
+10.7.138.24 - - [13/Dec/2023 12:45:49] "[37mGET /pc_details HTTP/1.1[0m" 200 -
+10.7.138.24 - - [13/Dec/2023 12:45:55] "[37mGET /pc_usage HTTP/1.1[0m" 200 -
+10.7.138.24 - - [13/Dec/2023 12:45:57] "[37mGET /pc_details HTTP/1.1[0m" 200 -
+10.7.138.24 - - [13/Dec/2023 12:47:34] "[37mGET /pc_usage HTTP/1.1[0m" 200 -
+10.7.138.24 - - [13/Dec/2023 12:47:37] "[37mGET / HTTP/1.1[0m" 200 -
+10.7.138.24 - - [13/Dec/2023 12:47:38] "[37mGET /pc_usage HTTP/1.1[0m" 200 -
+10.7.138.24 - - [13/Dec/2023 12:47:39] "[37mGET /pc_details HTTP/1.1[0m" 200 -
+10.7.138.24 - - [13/Dec/2023 12:47:40] "[37mGET /pc_usage HTTP/1.1[0m" 200 -
+10.7.138.24 - - [13/Dec/2023 12:47:41] "[37mGET / HTTP/1.1[0m" 200 -
+10.7.138.24 - - [13/Dec/2023 12:48:06] "[37mGET /pc_usage HTTP/1.1[0m" 200 -
+10.7.138.24 - - [13/Dec/2023 12:48:15] "[37mGET /pc_details HTTP/1.1[0m" 200 -
+10.7.138.24 - - [13/Dec/2023 12:48:15] "[37mGET /pc_usage HTTP/1.1[0m" 200 -
+10.7.138.24 - - [13/Dec/2023 12:48:16] "[37mGET / HTTP/1.1[0m" 200 -
+10.7.138.24 - - [13/Dec/2023 12:48:17] "[37mGET /pc_usage HTTP/1.1[0m" 200 -
+10.7.138.24 - - [13/Dec/2023 12:48:17] "[37mGET /pc_details HTTP/1.1[0m" 200 -
+10.7.138.24 - - [13/Dec/2023 12:48:19] "[37mGET / HTTP/1.1[0m" 200 -

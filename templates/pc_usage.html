@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PC Usage</title>
+    <style>
+
+        body {
+            font-family: 'Arial', sans-serif; /* Change the font to Arial for the entire app */
+            font-weight: 500;
+            padding-top: 40px;
+        }
+
+        nav {
+            background-color: darkgrey; /* Change the background color to grey */
+            overflow: hidden;
+            position: fixed; /* Set the menu bar to a fixed position */
+            width: 100%; /* Full width */
+            top: 0; /* Position at the top */
+            z-index: 1000; /* Ensure it's on top of other elements */
+        }
+
+        nav a {
+            float: left;
+            display: block;
+            color: black;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        nav a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        #menuBar {
+            background-color: darkgrey;
+            padding: 10px;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        #menuBar a {
+            color: black;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: larger;
+        }
+
+        #pcUsageContainer {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .pcUsageItem {
+            padding: 3px;
+            border: 1px solid #ddd; /* Border for each item */
+            flex: 1 1 calc(33.333% - 16px); /* Adjust the width of each item based on your preference */
+        }
+
+        #pcUsageTable {
+            margin-top: 20px; /* Increase the gap below the header */
+            margin-left: 20px; /* Increase the gap below the header */
+        }
+
+        #pcUsageTable th {
+            text-align: left; /* Add this style to left-justify table headers */
+            padding: 7px 15px 7px 15px; /* Increase the separation between columns */
+        }        
+
+        #pcUsageTable td {
+            text-align: left;
+            padding: 5px 15px 5px 15px; /* Increase the separation between columns */
+        }
+
+
+        #hostnameFilter {
+            margin-bottom: 10px;
+        }
+
+        .active {
+            background-color: #686868;
+            color: black;
+        }
+
+        label[for="hostnameFilter"] {
+            font-weight: bold;
+        }
+
+        .arrow-indicator {
+            font-size: 10px; /* Adjust the size as needed */
+            margin-left: 2px; /* Add some margin for spacing */
+        }
+
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/pc_usage">Resource Usage</a>
+        <a href="/pc_details">Resource Details</a>
+    </nav>
+
+    <!-- Add jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Sortable columns
+            $('th').click(function () {
+                var table = $(this).parents('table').eq(0);
+                var rows = table.find('tr:gt(0)').toArray().sort(comparer($(this).index()));
+
+                this.asc = !this.asc;
+                if (!this.asc) {
+                    rows = rows.reverse();
+                }
+                for (var i = 0; i < rows.length; i++) {
+                    table.append(rows[i]);
+                }
+
+                // Toggle arrow indicator
+                $('th').removeClass('asc desc');
+                $(this).addClass(this.asc ? 'asc' : 'desc');
+                updateArrowIndicator(this, this.asc);
+            });
+
+            function updateArrowIndicator(th, asc) {
+                // Remove existing arrow indicator
+                $(th).find('.arrow-indicator').remove();
+
+                // Create and append arrow indicator
+                var arrow = $('<span class="arrow-indicator">&#x25BC;</span>');
+                if (asc) {
+                    arrow = $('<span class="arrow-indicator">&#x25B2;</span>');
+                }
+                $(th).append(arrow);
+            }
+
+            // Initialize arrow indicators for default sorting order
+            $('th').each(function () {
+                updateArrowIndicator(this, true);
+            });
+
+            function comparer(index) {
+                return function (a, b) {
+                    var valA = getCellValue(a, index),
+                        valB = getCellValue(b, index);
+                    return $.isNumeric(valA) && $.isNumeric(valB) ? valA - valB : valA.toString().localeCompare(valB);
+                };
+            }
+
+            function getCellValue(row, index) {
+                return $(row).children('td').eq(index).text();
+            }
+        });
+    </script>
+
+    <script>
+    // Get the current page URL
+    var currentUrl = window.location.pathname;
+
+    // Find the corresponding link and add the "active" class
+    var links = document.querySelectorAll('nav a');
+    links.forEach(function(link) {
+        if (link.getAttribute('href') === currentUrl) {
+            link.classList.add('active');
+        }
+    });
+    </script>
+
+    <table id="pcUsageTable">
+        <!-- Table content will be dynamically populated using JavaScript -->
+    </table>
+
+    <label for="hostnameFilter">Filter by Resource:</label>
+    <select id="hostnameFilter" onchange="filterTable()">
+        <option value="">All</option>
+        <!-- Add options for all possible PC hostnames dynamically -->
+        {% for pc in pc_info %}
+            <option value="{{ pc[0] }}">{{ pc[0] }}</option>
+        {% endfor %}
+    </select>&emsp;
+    <label for="hostnameFilter">Filter by Owner:</label>
+    <select id="ownerFilter" onchange="filterTable()">
+        <option value="">All</option>
+        <!-- Add options for all possible PC hostnames dynamically -->
+        {% for user in owner_data %}
+            <option value="{{ user }}">{{ user }}</option>
+        {% endfor %}
+    </select>
+    <div id="pcUsageContainer"></div>
+
+    <script>
+
+        var pc_data = {{ pc_data | tojson | safe }};
+        var pc_info = {{ pc_info | tojson | safe }};
+        var owner_data = {{ owner_data | tojson | safe }};
+        // Debugging: Output pc_data to console
+        console.log('Received pc_data:', JSON.stringify(pc_data));
+        console.log('Received owner_data:', JSON.stringify(owner_data));
+
+        // Initial rendering of the PC Usage grid
+        pc_data = pc_data.map(function(row, index) {
+            if (index === 0) {
+                // Header row, no serial number
+                return row;
+            }
+            // Add serial number to each data row
+            return [index].concat(row);
+        });
+        renderTable(pc_data);
+
+        // Function to filter the grid based on hostname input
+        function filterTable() {
+            var filterValue = document.getElementById("hostnameFilter").value.toUpperCase();
+            var filterValueOwner = document.getElementById("ownerFilter").value;
+            console.log("filterValue:", filterValue);
+            console.log("filterValueOwner:", filterValueOwner);
+            var filteredData = [pc_data[0]].concat(pc_data.slice(1).filter(function(pc) {
+                return (filterValue === '' || pc[1] === filterValue) && (filterValueOwner === '' || pc[3] === filterValueOwner);
+            }));
+
+            
+            console.log("filteredData:", filteredData);
+            renderTable(filteredData);
+        }
+
+
+        // Function to render the PC Usage table with the provided data
+        function renderTable(data) {
+            var pcUsageTable = document.getElementById("pcUsageTable");
+            pcUsageTable.innerHTML = ""; // Clear existing content
+
+            // Table header
+            if (data.length > 1) {
+                var headerRow = pcUsageTable.createTHead().insertRow();
+                data[0].forEach(function (header) {
+                    var th = document.createElement("th");
+                    th.innerHTML = header;
+                    headerRow.appendChild(th);
+                });
+
+                // Table body
+                var tbody = pcUsageTable.createTBody();
+                for (var i = 1; i < data.length; i++) {
+                    var row = tbody.insertRow();
+                    data[i].forEach(function (value) {
+                        var td = document.createElement("td");
+                        td.innerHTML = value;
+                        row.appendChild(td);
+                    });
+                }
+            }
+        }
+    </script>
+</body>
+</html>
