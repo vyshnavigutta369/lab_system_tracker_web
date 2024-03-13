@@ -20,4 +20,3 @@ Functionality
 
 We can switch between the corresponding web pages by clicking on the appropriate page button in the navigation bar present at the top.
 
-# lab_system_tracker_web
